@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EVM Practice Problem</title>
+    <link rel="stylesheet" href="evm_practice.css">    
+</head>
+<body>
+    
+<div class="problem-container">
+    <h2>EVM Practice Problem</h2>
+    <p>Given the below values, calculate CV, SV, CPI, SPI, and TCPI:</p>
+    <table>
+        <tr>
+            <th>BAC:</th>
+            <td id="bac"></td>
+        </tr>
+        <tr>
+            <th>EV:</th>
+            <td id="ev"></td>
+        </tr>
+        <tr>
+            <th>AC:</th>
+            <td id="ac"></td>
+        </tr>
+        <tr>
+            <th>PV:</th>
+            <td id="pv"></td>
+        </tr>
+    </table>
+    <br>
+    <label for="cvInput">CV: </label>
+    <input type="number" id="cvInput" placeholder="Enter CV"><br><br>
+    <label for="svInput">SV: </label>
+    <input type="number" id="svInput" placeholder="Enter SV"><br><br>
+    <label for="cpiInput">CPI: </label>
+    <input type="number" id="cpiInput" placeholder="Enter CPI"><br><br>
+    <label for="spiInput">SPI: </label>
+    <input type="number" id="spiInput" placeholder="Enter SPI"><br><br>
+    <label for="tcpiInput">TCPI: </label>
+    <input type="number" id="tcpiInput" placeholder="Enter TCPI"><br><br>
+
+    <button onclick="checkAnswers()">Submit</button>
+    <button onclick="generateProblem()">Generate New Problem</button>
+
+    <div class="feedback" id="feedback"></div>
+    <p>Streak: <span id="streak">0</span></p>
+</div>
+
+    <script src="evm_practice.js"></script>
+</body>
+</html>
+
+
