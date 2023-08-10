@@ -66,3 +66,68 @@ details li {
 #giveUpButton:hover {
     background-color: #d32f2f; /* dark red */
 }
+
+.mode-switch {
+    position: relative;
+    display: inline-block;
+    width: 90px;
+    height: 34px;
+}
+
+.toggle-checkbox {
+    display: none;
+}
+
+.toggle-label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #ccc;
+    cursor: pointer;
+    border-radius: 34px;
+}
+
+.toggle-label .toggle-text {
+    position: absolute;
+    width: 50%;
+    height: 100%;
+    text-align: center;
+    line-height: 34px;
+    font-size: 12px;
+    transition: all 0.3s;
+    color: white;
+    font-weight: bold;
+}
+
+.toggle-label .toggle-text:before {
+    content: "Detailed";
+    left: 70%;
+    z-index: 2;
+    position: absolute;
+}
+
+.toggle-checkbox:checked + .toggle-label .toggle-text:before {
+    content: "Simple";
+    left: 10%;
+}
+
+.toggle-label .toggle-handle {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 30px;
+    height: 30px;
+    background-color: white;
+    border-radius: 50%;
+    transition: all 0.3s;
+}
+
+.toggle-checkbox:checked + .toggle-label .toggle-handle {
+    left: 58px;
+}
+
+.toggle-checkbox:checked + .toggle-label {
+    background-color: #4CAF50;
+}

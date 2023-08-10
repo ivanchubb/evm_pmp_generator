@@ -1,15 +1,21 @@
 // evm_practice.js
 let currentBAC, currentEV, currentAC, currentPV;
 let streakCount = 0;
-let timerInterval;
+let budgetSelection = null;
+let scheduleSelection = null;
+
+function getRandomInt(max) {
+    return Math.floor(Math.random() * max)
+}
+
 
 function generateProblem() {
     clearResponses(); // Clearing the inputs after checking the answers
     
-    currentBAC = Math.floor(Math.random() * 1000) + 100;
-    currentEV = Math.floor(Math.random() * currentBAC);
-    currentAC = Math.floor(Math.random() * currentBAC);
-    currentPV = Math.floor(Math.random() * currentBAC);
+    currentBAC = getRandomInt(1000) + 100;
+    currentEV = getRandomInt(currentBAC);
+    currentAC = getRandomInt(currentBAC);
+    currentPV = getRandomInt(currentBAC);
 
     document.getElementById('bac').textContent = currentBAC;
     document.getElementById('ev').textContent = currentEV;
@@ -17,13 +23,7 @@ function generateProblem() {
     document.getElementById('pv').textContent = currentPV;
 }
 
-function checkAnswers() {
-    const cv = (currentEV - currentAC).toFixed(2);
-    const sv = (currentEV - currentPV).toFixed(2);
-    const cpi = (currentEV / currentAC).toFixed(2);
-    const spi = (currentEV / currentPV).toFixed(2);
-    const tcpi = ((currentBAC - currentEV) / (currentBAC - currentAC)).toFixed(2); // TCPI formula adjusted for absence of EAC
-
+function detailedAnswers(cv, sv, cpi, spi, tcpi) {
     const userCV = parseFloat(document.getElementById('cvInput').value).toFixed(2);
     const userSV = parseFloat(document.getElementById('svInput').value).toFixed(2);
     const userCPI = parseFloat(document.getElementById('cpiInput').value).toFixed(2);
@@ -43,12 +43,28 @@ function checkAnswers() {
     } else {
         streakCount = 0;
     }
+}
 
+
+function checkAnswers() {
+    const cv = (currentEV - currentAC).toFixed(2);
+    const sv = (currentEV - currentPV).toFixed(2);
+    const cpi = (currentEV / currentAC).toFixed(2);
+    const spi = (currentEV / currentPV).toFixed(2);
+    const tcpi = ((currentBAC - currentEV) / (currentBAC - currentAC)).toFixed(2); // TCPI formula adjusted for absence of EAC
+
+    if (isDetailedMode)
+    {
+        detailedAnswers(cv, sv, cpi, spi, tcpi)
+    } else {
+        simpleAnswer(cv, sv)
+    }
+    
     document.getElementById('streak').textContent = streakCount;
 }
 
 function clearResponses() {
-    const inputIds = ['cvInput', 'svInput', 'cpiInput', 'spiInput', 'tcpiInput'];
+    const inputIds = ['cvInput', 'svInput', 'cpiInput', 'spiInput', 'tcpiInput', 'overBudgetButton', 'underBudgetButton', 'onBudgetButton', 'aheadScheduleButton', 'behindScheduleButton', 'onScheduleButton'];
     inputIds.forEach(id => {
         const inputElem = document.getElementById(id);
         inputElem.value = '';
@@ -56,8 +72,6 @@ function clearResponses() {
         inputElem.style.backgroundColor = '';  // Reset to default
     });
 }
-
-
 
 function colorizeInput(inputId, userValue, correctValue) {
     const inputElem = document.getElementById(inputId);
@@ -79,28 +93,6 @@ function allCorrect(userValues, correctValues) {
     return true;
 }
 
-
-function startTimer() {
-    const duration = document.getElementById('timerInput').value;
-    let timeRemaining = duration;
-
-    document.getElementById('timeRemaining').textContent = timeRemaining;
-
-    timerInterval = setInterval(() => {
-        timeRemaining--;
-        document.getElementById('timeRemaining').textContent = timeRemaining;
-        
-        if (timeRemaining <= 0) {
-            clearInterval(timerInterval);
-            alert('Time is up!');
-        }
-    }, 1000);
-}
-
-function resetTimer() {
-    clearInterval(timerInterval);
-    document.getElementById('timeRemaining').textContent = '0';
-}
 
 function revealAnswers() {
 
@@ -125,15 +117,108 @@ function revealAnswers() {
     let SPI = EV / PV;
     let TCPI = (BAC - EV) / (BAC - AC);
 
-    // Set the answers in the input boxes
-    document.getElementById("cvInput").value = CV.toFixed(2);
-    document.getElementById("svInput").value = SV.toFixed(2);
-    document.getElementById("cpiInput").value = CPI.toFixed(2);
-    document.getElementById("spiInput").value = SPI.toFixed(2);
-    document.getElementById("tcpiInput").value = TCPI.toFixed(2);
+
+    if (isDetailedMode) {
+
+        // Set the answers in the input boxes
+        document.getElementById("cvInput").value = CV.toFixed(2);
+        document.getElementById("svInput").value = SV.toFixed(2);
+        document.getElementById("cpiInput").value = CPI.toFixed(2);
+        document.getElementById("spiInput").value = SPI.toFixed(2);
+        document.getElementById("tcpiInput").value = TCPI.toFixed(2);
+    }
+    else {
+        conditions = {
+            'overBudget': CV < 0,
+            'underBudget': CV > 0,
+            'onBudget': CV == 0
+        }
+        checkCondition("overBudget", conditions)
+        checkCondition("underBudget", conditions)
+        checkCondition("onBudget", conditions)
+        
+        conditions = {
+            'aheadSchedule': SV > 0,
+            'behindSchedule': SV < 0,
+            'onSchedule': SV == 0
+        }
+        checkCondition("aheadSchedule", conditions)
+        checkCondition("behindSchedule", conditions)
+        checkCondition("onSchedule", conditions)
+    }
 }
 
+document.addEventListener("DOMContentLoaded", function() {
+    // This ensures that the script runs after the HTML is loaded.
+    updateMode();
+});
 
+function toggleMode() {
+    updateMode();
+}
+
+function updateMode() {
+    const toggleCheckbox = document.getElementById('modeToggle');
+    const detailedAnswers = document.getElementById('detailedAnswers');
+    const simpleAnswers = document.getElementById('simpleAnswers');
+
+    if (toggleCheckbox.checked) {
+        detailedAnswers.style.display = "none";
+        simpleAnswers.style.display = "block";
+        isDetailedMode = false;
+    } else {
+        detailedAnswers.style.display = "block";
+        simpleAnswers.style.display = "none";
+        isDetailedMode = true;
+    }
+}
+
+function simpleAnswer(cv, sv) {
+    let correctAnswer = true;
+
+    correctAnswer &= checkCondition(budgetSelection, {
+        'overBudget': cv < 0,
+        'underBudget': cv > 0,
+        'onBudget': cv == 0
+    });
+
+    correctAnswer &= checkCondition(scheduleSelection, {
+        'aheadSchedule': sv > 0,
+        'behindSchedule': sv < 0,
+        'onSchedule': sv == 0
+    });
+
+    if (correctAnswer) {
+        streakCount++;
+    } else {
+        streakCount = 0;
+    }
+}
+
+function checkCondition(selection, conditions) {
+    const buttonId = {
+        'overBudget': 'overBudgetButton',
+        'underBudget': 'underBudgetButton',
+        'onBudget': 'onBudgetButton',
+        'aheadSchedule': 'aheadScheduleButton',
+        'behindSchedule': 'behindScheduleButton',
+        'onSchedule': 'onScheduleButton'
+    };
+
+    if (conditions[selection] === true) {
+        styleButton(buttonId[selection], 'green', '#e6ffe6');
+        return true;
+    } else {
+        styleButton(buttonId[selection], 'red', '#ffe6e6');
+        return false;
+    }
+}
+
+function styleButton(buttonId, borderColor, backgroundColor) {
+    const element = document.getElementById(buttonId);
+    element.style.borderColor = borderColor;
+    element.style.backgroundColor = backgroundColor;
+}
 
 // Automatically generate a problem on page load
 window.onload = generateProblem;

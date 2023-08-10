@@ -7,45 +7,72 @@
     <link rel="stylesheet" href="evm_practice.css">    
 </head>
 <body>
+
+<div class="mode-switch">
+    <input type="checkbox" id="modeToggle" class="toggle-checkbox" onchange="toggleMode()">
+    <label for="modeToggle" class="toggle-label">
+        <span class="toggle-text"></span>
+        <span class="toggle-handle"></span>
+    </label>
+</div>
+    
     
 <div class="problem-container">
     <h2>EVM Practice Problem</h2>
+    <div id="problemPrompt">
     <p>Given the below values, calculate CV, SV, CPI, SPI, and TCPI:</p>
-    <table>
-        <tr>
-            <th>BAC:</th>
-            <td id="bac"></td>
-        </tr>
-        <tr>
-            <th>EV:</th>
-            <td id="ev"></td>
-        </tr>
-        <tr>
-            <th>AC:</th>
-            <td id="ac"></td>
-        </tr>
-        <tr>
-            <th>PV:</th>
-            <td id="pv"></td>
-        </tr>
-    </table>
-    <br>
-    <label for="cvInput">CV: </label>
-    <input type="tel" id="cvInput" placeholder="Enter CV" pattern="-?([0-9]+(\.[0-9]*)?|\.[0-9]+)"><br><br>
-    <label for="svInput">SV: </label>
-    <input type="tel" id="svInput" placeholder="Enter SV" pattern="-?([0-9]+(\.[0-9]*)?|\.[0-9]+)"><br><br>
-    <label for="cpiInput">CPI: </label>
-    <input type="tel" id="cpiInput" placeholder="Enter CPI" pattern="-?([0-9]+(\.[0-9]*)?|\.[0-9]+)"><br><br>
-    <label for="spiInput">SPI: </label>
-    <input type="tel" id="spiInput" placeholder="Enter SPI" pattern="-?([0-9]+(\.[0-9]*)?|\.[0-9]+)"><br><br>
-    <label for="tcpiInput">TCPI: </label>
-    <input type="tel" id="tcpiInput" placeholder="Enter TCPI" pattern="-?([0-9]+(\.[0-9]*)?|\.[0-9]+)"><br><br>
+        <table>
+            <tr>
+                <th>BAC:</th>
+                <td id="bac"></td>
+            </tr>
+            <tr>
+                <th>EV:</th>
+                <td id="ev"></td>
+            </tr>
+            <tr>
+                <th>AC:</th>
+                <td id="ac"></td>
+            </tr>
+            <tr>
+                <th>PV:</th>
+                <td id="pv"></td>
+            </tr>
+        </table>
+    </div>
+
+    <!-- detailed mode-->
+    <div id="detailedAnswers">
+        <label for="cvInput">CV: </label>
+        <input type="tel" id="cvInput" placeholder="Enter CV" pattern="-?([0-9]+(\.[0-9]*)?|\.[0-9]+)"><br><br>
+        <label for="svInput">SV: </label>
+        <input type="tel" id="svInput" placeholder="Enter SV" pattern="-?([0-9]+(\.[0-9]*)?|\.[0-9]+)"><br><br>
+        <label for="cpiInput">CPI: </label>
+        <input type="tel" id="cpiInput" placeholder="Enter CPI" pattern="-?([0-9]+(\.[0-9]*)?|\.[0-9]+)"><br><br>
+        <label for="spiInput">SPI: </label>
+        <input type="tel" id="spiInput" placeholder="Enter SPI" pattern="-?([0-9]+(\.[0-9]*)?|\.[0-9]+)"><br><br>
+        <label for="tcpiInput">TCPI: </label>
+        <input type="tel" id="tcpiInput" placeholder="Enter TCPI" pattern="-?([0-9]+(\.[0-9]*)?|\.[0-9]+)"><br><br>
+    </div>
+
+    <!-- Simple Mode -->
+    <div id="simpleAnswers" style="display: none;">
+        <p>Is the Budget:</p>
+        <button id="overBudgetButton" onclick="budgetSelection = 'overBudget'">Over Budget</button>
+        <button id="underBudgetButton" onclick="budgetSelection = 'underBudget'">Under Budget</button>
+        <button id="onBudgetButton" onclick="budgetSelection = 'onBudget'">On Budget</button>
+
+        <p>Is the Schedule:</p>
+        <button id="aheadScheduleButton" onclick="scheduleSelection = 'aheadSchedule'">Ahead of Schedule</button>
+        <button id="behindScheduleButton" onclick="scheduleSelection = 'behindSchedule'">Behind Schedule</button>
+        <button id="onScheduleButton" style="margin-bottom: 20px" onclick="scheduleSelection = 'onSchedule'">On Schedule</button>
+    </div>
+
 
     <button onclick="checkAnswers()">Submit</button>
     <button onclick="generateProblem()">Generate New Problem</button>
     <button id="giveUpButton" onclick="revealAnswers()">Give Up</button>
 
-    <div class="feedback" id="feedback"></div>
     <p>Streak: <span id="streak">0</span></p>
 
     <details>
@@ -73,10 +100,6 @@
         </ul>
       
     </details>
-      
-      
-    
-      
 </div>
 
     <script src="evm_practice.js"></script>
