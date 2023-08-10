@@ -52,3 +52,17 @@ details ul {
 details li {
     margin-bottom: 0.5rem;
 }
+
+#giveUpButton {
+    background-color: #f44336; /* red */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: 0.3s;
+    margin-top: 10px;
+}
+
+#giveUpButton:hover {
+    background-color: #d32f2f; /* dark red */
+}

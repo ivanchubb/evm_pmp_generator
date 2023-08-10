@@ -16,6 +16,7 @@ function generateProblem() {
     document.getElementById('ac').textContent = currentAC;
     document.getElementById('pv').textContent = currentPV;
 }
+
 function checkAnswers() {
     const cv = (currentEV - currentAC).toFixed(2);
     const sv = (currentEV - currentPV).toFixed(2);
@@ -100,6 +101,38 @@ function resetTimer() {
     clearInterval(timerInterval);
     document.getElementById('timeRemaining').textContent = '0';
 }
+
+function revealAnswers() {
+
+    streakCount = 0;
+    
+    // Fetch the values from the input fields
+    let BAC = parseFloat(document.getElementById("bac").textContent);
+    let EV = parseFloat(document.getElementById("ev").textContent);
+    let AC = parseFloat(document.getElementById("ac").textContent);
+    let PV = parseFloat(document.getElementById("pv").textContent);
+
+    // Check if all values are numbers before calculation
+    if (isNaN(BAC) || isNaN(EV) || isNaN(AC) || isNaN(PV)) {
+        alert("Please ensure that BAC, EV, AC, and PV values are generated.");
+        return;
+    }
+
+    let CV = EV - AC;
+    let SV = EV - PV;
+    let CPI = EV / AC;
+    let SPI = EV / PV;
+    let TCPI = (BAC - EV) / (BAC - AC);
+
+    // Set the answers in the input boxes
+    document.getElementById("cvInput").value = CV.toFixed(2);
+    document.getElementById("svInput").value = SV.toFixed(2);
+    document.getElementById("cpiInput").value = CPI.toFixed(2);
+    document.getElementById("spiInput").value = SPI.toFixed(2);
+    document.getElementById("tcpiInput").value = TCPI.toFixed(2);
+}
+
+
 
 // Automatically generate a problem on page load
 window.onload = generateProblem;
