@@ -22,7 +22,7 @@ function checkAnswers() {
     const sv = (currentEV - currentPV).toFixed(2);
     const cpi = (currentEV / currentAC).toFixed(2);
     const spi = (currentEV / currentPV).toFixed(2);
-    const tcpi = ((currentBAC - currentEV) / (currentBAC - currentPV)).toFixed(2); // TCPI formula adjusted for absence of EAC
+    const tcpi = ((currentBAC - currentEV) / (currentBAC - currentAC)).toFixed(2); // TCPI formula adjusted for absence of EAC
 
     const userCV = parseFloat(document.getElementById('cvInput').value).toFixed(2);
     const userSV = parseFloat(document.getElementById('svInput').value).toFixed(2);
