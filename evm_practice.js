@@ -105,6 +105,7 @@ function resetTimer() {
 function revealAnswers() {
 
     streakCount = 0;
+    document.getElementById('streak').textContent = streakCount;
     
     // Fetch the values from the input fields
     let BAC = parseFloat(document.getElementById("bac").textContent);
