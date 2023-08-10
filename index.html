@@ -31,15 +31,15 @@
     </table>
     <br>
     <label for="cvInput">CV: </label>
-    <input type="number" id="cvInput" placeholder="Enter CV"><br><br>
+    <input type="tel" id="cvInput" placeholder="Enter CV" pattern="-?([0-9]+(\.[0-9]*)?|\.[0-9]+)"><br><br>
     <label for="svInput">SV: </label>
-    <input type="number" id="svInput" placeholder="Enter SV"><br><br>
+    <input type="tel" id="svInput" placeholder="Enter SV" pattern="-?([0-9]+(\.[0-9]*)?|\.[0-9]+)"><br><br>
     <label for="cpiInput">CPI: </label>
-    <input type="number" id="cpiInput" placeholder="Enter CPI"><br><br>
+    <input type="tel" id="cpiInput" placeholder="Enter CPI" pattern="-?([0-9]+(\.[0-9]*)?|\.[0-9]+)"><br><br>
     <label for="spiInput">SPI: </label>
-    <input type="number" id="spiInput" placeholder="Enter SPI"><br><br>
+    <input type="tel" id="spiInput" placeholder="Enter SPI" pattern="-?([0-9]+(\.[0-9]*)?|\.[0-9]+)"><br><br>
     <label for="tcpiInput">TCPI: </label>
-    <input type="number" id="tcpiInput" placeholder="Enter TCPI"><br><br>
+    <input type="tel" id="tcpiInput" placeholder="Enter TCPI" pattern="-?([0-9]+(\.[0-9]*)?|\.[0-9]+)"><br><br>
 
     <button onclick="checkAnswers()">Submit</button>
     <button onclick="generateProblem()">Generate New Problem</button>
